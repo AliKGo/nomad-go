@@ -24,11 +24,6 @@ services:
       POSTGRES_PASSWORD: ridehail_pass
       POSTGRES_DB: ridehail_db
     restart: always
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U ridehail_user -d ridehail_db"]
-      interval: 5s
-      timeout: 5s
-      retries: 5
 
   rabbitmq:
     image: rabbitmq:3.12-management-alpine
@@ -46,21 +41,13 @@ services:
       RABBITMQ_DEFAULT_USER: guest
       RABBITMQ_DEFAULT_PASS: guest
     restart: always
-    # Убираем healthcheck - RabbitMQ инициализируется долго
-    # healthcheck:
-    #   test: ["CMD", "rabbitmq-diagnostics", "-q", "ping"]
-    #   interval: 15s
-    #   timeout: 10s
-    #   retries: 5
-    #   start_period: 150s
 
   auth-service:
     build: .
     networks:
       - net
     depends_on:
-      postgresql:
-        condition: service_healthy
+      - postgresql
     command: ["./main", "--mode=auth-service"]
     ports:
       - "3005:3005"
@@ -76,10 +63,8 @@ services:
     networks:
       - net
     depends_on:
-      postgresql:
-        condition: service_healthy
-      rabbitmq:
-        condition: service_started  # Просто дождёмся старта, не healthcheck
+      - postgresql
+      - rabbitmq
     command: ["./main", "--mode=ride-service"]
     ports:
       - "3000:3000"
@@ -94,10 +79,8 @@ services:
     networks:
       - net
     depends_on:
-      postgresql:
-        condition: service_healthy
-      rabbitmq:
-        condition: service_started
+      - postgresql
+      - rabbitmq
     command: ["./main", "--mode=driver-service"]
     ports:
       - "3001:3001"
@@ -112,10 +95,8 @@ services:
     networks:
       - net
     depends_on:
-      postgresql:
-        condition: service_healthy
-      rabbitmq:
-        condition: service_started
+      - postgresql
+      - rabbitmq
     command: ["./main", "--mode=admin-service"]
     ports:
       - "3004:3004"
@@ -140,6 +121,7 @@ services:
       - admin-service
     restart: unless-stopped
 
+  # Мониторинг
   prometheus:
     image: prom/prometheus:latest
     networks:
