@@ -46,12 +46,13 @@ services:
       RABBITMQ_DEFAULT_USER: guest
       RABBITMQ_DEFAULT_PASS: guest
     restart: always
-    healthcheck:
-      test: ["CMD", "rabbitmq-diagnostics", "-q", "ping"]
-      interval: 15s
-      timeout: 10s
-      retries: 5
-      start_period: 150s  # ← RabbitMQ нужно ~130 сек на старт!
+    # Убираем healthcheck - RabbitMQ инициализируется долго
+    # healthcheck:
+    #   test: ["CMD", "rabbitmq-diagnostics", "-q", "ping"]
+    #   interval: 15s
+    #   timeout: 10s
+    #   retries: 5
+    #   start_period: 150s
 
   auth-service:
     build: .
@@ -78,7 +79,7 @@ services:
       postgresql:
         condition: service_healthy
       rabbitmq:
-        condition: service_healthy
+        condition: service_started  # Просто дождёмся старта, не healthcheck
     command: ["./main", "--mode=ride-service"]
     ports:
       - "3000:3000"
@@ -86,6 +87,7 @@ services:
     environment:
       - DB_HOST=postgresql
       - RABBITMQ_HOST=rabbitmq
+      - RABBITMQ_PORT=5672
 
   driver-service:
     build: .
@@ -95,7 +97,7 @@ services:
       postgresql:
         condition: service_healthy
       rabbitmq:
-        condition: service_healthy
+        condition: service_started
     command: ["./main", "--mode=driver-service"]
     ports:
       - "3001:3001"
@@ -103,6 +105,7 @@ services:
     environment:
       - DB_HOST=postgresql
       - RABBITMQ_HOST=rabbitmq
+      - RABBITMQ_PORT=5672
 
   admin-service:
     build: .
@@ -112,7 +115,7 @@ services:
       postgresql:
         condition: service_healthy
       rabbitmq:
-        condition: service_healthy
+        condition: service_started
     command: ["./main", "--mode=admin-service"]
     ports:
       - "3004:3004"
@@ -120,6 +123,7 @@ services:
     environment:
       - DB_HOST=postgresql
       - RABBITMQ_HOST=rabbitmq
+      - RABBITMQ_PORT=5672
 
   nginx:
     image: nginx:latest
