@@ -4,7 +4,7 @@ import (
 	"context"
 	"fmt"
 
-	wrap "github.com/Temutjin2k/ride-hail-system/pkg/logger/wrapper"
+	wrap "ride-hail-system/pkg/logger/wrapper"
 )
 
 // Example demonstrates how to use the logger with context and error wrapping

@@ -3,7 +3,7 @@ package admin
 import (
 	"context"
 
-	"github.com/Temutjin2k/ride-hail-system/internal/domain/models"
+	"ride-hail-system/internal/domain/models"
 )
 
 type AdminRepository interface {

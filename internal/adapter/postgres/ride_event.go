@@ -4,9 +4,9 @@ import (
 	"context"
 	"encoding/json"
 
-	"github.com/Temutjin2k/ride-hail-system/internal/domain/types"
-	"github.com/Temutjin2k/ride-hail-system/pkg/uuid"
 	"github.com/jackc/pgx/v5/pgxpool"
+	"ride-hail-system/internal/domain/types"
+	"ride-hail-system/pkg/uuid"
 )
 
 type RideEvent struct {

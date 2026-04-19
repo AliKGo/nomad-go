@@ -8,11 +8,12 @@ import (
 	"log"
 	"time"
 
-	"github.com/Temutjin2k/ride-hail-system/config"
-	"github.com/Temutjin2k/ride-hail-system/internal/adapter/postgres"
-	"github.com/Temutjin2k/ride-hail-system/pkg/hasher"
-	pgclient "github.com/Temutjin2k/ride-hail-system/pkg/postgres"
-	"github.com/Temutjin2k/ride-hail-system/pkg/uuid"
+	"ride-hail-system/config"
+	"ride-hail-system/internal/adapter/postgres"
+	"ride-hail-system/pkg/hasher"
+	pgclient "ride-hail-system/pkg/postgres"
+	"ride-hail-system/pkg/uuid"
+
 	"github.com/jackc/pgx/v5/pgxpool"
 )
 

@@ -6,10 +6,10 @@ import (
 	"sync"
 	"time"
 
-	"github.com/Temutjin2k/ride-hail-system/internal/domain/types"
-	"github.com/Temutjin2k/ride-hail-system/pkg/logger"
-	wrap "github.com/Temutjin2k/ride-hail-system/pkg/logger/wrapper"
 	amqp "github.com/rabbitmq/amqp091-go"
+	"ride-hail-system/internal/domain/types"
+	"ride-hail-system/pkg/logger"
+	wrap "ride-hail-system/pkg/logger/wrapper"
 )
 
 type RabbitMQ struct {

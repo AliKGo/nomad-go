@@ -5,10 +5,10 @@ import (
 	"errors"
 	"fmt"
 
-	"github.com/Temutjin2k/ride-hail-system/config"
-	"github.com/Temutjin2k/ride-hail-system/internal/app/microservices"
-	"github.com/Temutjin2k/ride-hail-system/internal/domain/types"
-	"github.com/Temutjin2k/ride-hail-system/pkg/logger"
+	"ride-hail-system/config"
+	"ride-hail-system/internal/app/microservices"
+	"ride-hail-system/internal/domain/types"
+	"ride-hail-system/pkg/logger"
 )
 
 var (

@@ -4,12 +4,12 @@ import (
 	"context"
 	"net/http"
 
-	"github.com/Temutjin2k/ride-hail-system/internal/adapter/http/handler/dto"
-	"github.com/Temutjin2k/ride-hail-system/internal/domain/models"
-	"github.com/Temutjin2k/ride-hail-system/pkg/logger"
-	wrap "github.com/Temutjin2k/ride-hail-system/pkg/logger/wrapper"
-	"github.com/Temutjin2k/ride-hail-system/pkg/uuid"
-	"github.com/Temutjin2k/ride-hail-system/pkg/validator"
+	"ride-hail-system/internal/adapter/http/handler/dto"
+	"ride-hail-system/internal/domain/models"
+	"ride-hail-system/pkg/logger"
+	wrap "ride-hail-system/pkg/logger/wrapper"
+	"ride-hail-system/pkg/uuid"
+	"ride-hail-system/pkg/validator"
 )
 
 type AuthService interface {

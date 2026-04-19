@@ -9,11 +9,11 @@ import (
 
 	amqp "github.com/rabbitmq/amqp091-go"
 
-	"github.com/Temutjin2k/ride-hail-system/internal/domain/models"
-	"github.com/Temutjin2k/ride-hail-system/internal/domain/types"
-	"github.com/Temutjin2k/ride-hail-system/pkg/logger"
-	wrap "github.com/Temutjin2k/ride-hail-system/pkg/logger/wrapper"
-	"github.com/Temutjin2k/ride-hail-system/pkg/rabbit"
+	"ride-hail-system/internal/domain/models"
+	"ride-hail-system/internal/domain/types"
+	"ride-hail-system/pkg/logger"
+	wrap "ride-hail-system/pkg/logger/wrapper"
+	"ride-hail-system/pkg/rabbit"
 )
 
 const (

@@ -3,8 +3,8 @@ package admin
 import (
 	"context"
 
-	"github.com/Temutjin2k/ride-hail-system/internal/domain/models"
-	"github.com/Temutjin2k/ride-hail-system/pkg/logger"
+	"ride-hail-system/internal/domain/models"
+	"ride-hail-system/pkg/logger"
 )
 
 type AdminService struct {

@@ -4,9 +4,9 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/Temutjin2k/ride-hail-system/internal/domain/models"
-	"github.com/Temutjin2k/ride-hail-system/pkg/uuid"
-	"github.com/Temutjin2k/ride-hail-system/pkg/validator"
+	"ride-hail-system/internal/domain/models"
+	"ride-hail-system/pkg/uuid"
+	"ride-hail-system/pkg/validator"
 )
 
 type RegisterDriverRequest struct {

@@ -4,7 +4,7 @@ import (
 	"context"
 	"time"
 
-	"github.com/Temutjin2k/ride-hail-system/pkg/uuid"
+	"ride-hail-system/pkg/uuid"
 )
 
 // anonymousUser variable for user.

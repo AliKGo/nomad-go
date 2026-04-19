@@ -3,8 +3,8 @@ package wshandler
 import (
 	"context"
 
-	"github.com/Temutjin2k/ride-hail-system/pkg/uuid"
-	ws "github.com/Temutjin2k/ride-hail-system/pkg/wsHub"
+	"ride-hail-system/pkg/uuid"
+	ws "ride-hail-system/pkg/wsHub"
 )
 
 type RideWsHandler struct {

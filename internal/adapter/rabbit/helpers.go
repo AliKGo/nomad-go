@@ -4,7 +4,7 @@ import (
 	"errors"
 	"time"
 
-	"github.com/Temutjin2k/ride-hail-system/internal/domain/types"
+	"ride-hail-system/internal/domain/types"
 )
 
 // isRecoverableError returns true if the provided error must be requeued

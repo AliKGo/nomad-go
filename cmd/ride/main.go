@@ -5,9 +5,9 @@ import (
 	"flag"
 	"os"
 
-	"github.com/Temutjin2k/ride-hail-system/config"
-	"github.com/Temutjin2k/ride-hail-system/internal/app"
-	"github.com/Temutjin2k/ride-hail-system/pkg/logger"
+	"ride-hail-system/config"
+	"ride-hail-system/internal/app"
+	"ride-hail-system/pkg/logger"
 )
 
 var (

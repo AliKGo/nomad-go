@@ -1,9 +1,9 @@
 package dto
 
 import (
-	"github.com/Temutjin2k/ride-hail-system/internal/adapter/http/handler/dto"
-	"github.com/Temutjin2k/ride-hail-system/pkg/uuid"
-	"github.com/Temutjin2k/ride-hail-system/pkg/validator"
+	"ride-hail-system/internal/adapter/http/handler/dto"
+	"ride-hail-system/pkg/uuid"
+	"ride-hail-system/pkg/validator"
 )
 
 type OfferResp struct {

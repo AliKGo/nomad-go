@@ -1,4 +1,4 @@
-module github.com/Temutjin2k/ride-hail-system
+module ride-hail-system
 
 go 1.25.1
 

@@ -6,8 +6,8 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/Temutjin2k/ride-hail-system/internal/domain/types"
-	"github.com/Temutjin2k/ride-hail-system/pkg/configparser"
+	"ride-hail-system/internal/domain/types"
+	"ride-hail-system/pkg/configparser"
 )
 
 // Flags

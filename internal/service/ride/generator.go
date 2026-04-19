@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"time"
 
-	wrap "github.com/Temutjin2k/ride-hail-system/pkg/logger/wrapper"
+	wrap "ride-hail-system/pkg/logger/wrapper"
 )
 
 // создать уникальный номер поездки

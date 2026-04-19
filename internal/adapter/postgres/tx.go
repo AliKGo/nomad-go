@@ -3,7 +3,7 @@ package postgres
 import (
 	"context"
 
-	"github.com/Temutjin2k/ride-hail-system/pkg/trm"
+	"ride-hail-system/pkg/trm"
 
 	"github.com/jackc/pgx/v5"
 	"github.com/jackc/pgx/v5/pgconn"

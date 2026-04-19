@@ -8,8 +8,8 @@ import (
 
 	"github.com/jackc/pgx/v5/pgxpool"
 
-	"github.com/Temutjin2k/ride-hail-system/internal/domain/models"
-	"github.com/Temutjin2k/ride-hail-system/pkg/uuid"
+	"ride-hail-system/internal/domain/models"
+	"ride-hail-system/pkg/uuid"
 )
 
 type AdminRepo struct {

@@ -8,13 +8,13 @@ import (
 	"strings"
 	"time"
 
-	"github.com/Temutjin2k/ride-hail-system/internal/domain/models"
-	"github.com/Temutjin2k/ride-hail-system/internal/domain/types"
-	ridecalc "github.com/Temutjin2k/ride-hail-system/internal/service/calculator"
-	"github.com/Temutjin2k/ride-hail-system/pkg/logger"
-	wrap "github.com/Temutjin2k/ride-hail-system/pkg/logger/wrapper"
-	"github.com/Temutjin2k/ride-hail-system/pkg/trm"
-	"github.com/Temutjin2k/ride-hail-system/pkg/uuid"
+	"ride-hail-system/internal/domain/models"
+	"ride-hail-system/internal/domain/types"
+	ridecalc "ride-hail-system/internal/service/calculator"
+	"ride-hail-system/pkg/logger"
+	wrap "ride-hail-system/pkg/logger/wrapper"
+	"ride-hail-system/pkg/trm"
+	"ride-hail-system/pkg/uuid"
 )
 
 /*

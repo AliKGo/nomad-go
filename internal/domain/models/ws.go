@@ -1,6 +1,6 @@
 package models
 
-import "github.com/Temutjin2k/ride-hail-system/internal/domain/types"
+import "ride-hail-system/internal/domain/types"
 
 type StatusUpdateWebSocketMessage struct {
 	EventType types.RideEvent `json:"event_type"`

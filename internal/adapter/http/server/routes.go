@@ -4,12 +4,12 @@ import (
 	"context"
 	"net/http"
 
-	"github.com/Temutjin2k/ride-hail-system/internal/adapter/http/middleware"
-	"github.com/Temutjin2k/ride-hail-system/internal/domain/types"
-	"github.com/Temutjin2k/ride-hail-system/pkg/logger"
-	wrap "github.com/Temutjin2k/ride-hail-system/pkg/logger/wrapper"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
 	httpSwagger "github.com/swaggo/http-swagger"
+	"ride-hail-system/internal/adapter/http/middleware"
+	"ride-hail-system/internal/domain/types"
+	"ride-hail-system/pkg/logger"
+	wrap "ride-hail-system/pkg/logger/wrapper"
 )
 
 // setupRoutes - setups http routes

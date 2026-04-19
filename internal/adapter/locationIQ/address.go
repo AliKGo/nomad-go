@@ -7,8 +7,8 @@ import (
 	"net/http"
 	"strconv"
 
-	"github.com/Temutjin2k/ride-hail-system/internal/domain/types"
-	wrap "github.com/Temutjin2k/ride-hail-system/pkg/logger/wrapper"
+	"ride-hail-system/internal/domain/types"
+	wrap "ride-hail-system/pkg/logger/wrapper"
 )
 
 var ErrLocationNotFound = fmt.Errorf("location not found")

@@ -4,10 +4,10 @@ import (
 	"context"
 	"encoding/json"
 
-	"github.com/Temutjin2k/ride-hail-system/internal/adapter/rabbit"
-	"github.com/Temutjin2k/ride-hail-system/internal/domain/models"
-	"github.com/Temutjin2k/ride-hail-system/internal/domain/types"
-	"github.com/Temutjin2k/ride-hail-system/pkg/uuid"
+	"ride-hail-system/internal/adapter/rabbit"
+	"ride-hail-system/internal/domain/models"
+	"ride-hail-system/internal/domain/types"
+	"ride-hail-system/pkg/uuid"
 )
 
 type (

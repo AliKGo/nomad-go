@@ -7,15 +7,15 @@ import (
 	"syscall"
 	"time"
 
-	"github.com/Temutjin2k/ride-hail-system/config"
-	httpserver "github.com/Temutjin2k/ride-hail-system/internal/adapter/http/server"
-	"github.com/Temutjin2k/ride-hail-system/internal/adapter/postgres"
-	"github.com/Temutjin2k/ride-hail-system/internal/service/admin"
-	"github.com/Temutjin2k/ride-hail-system/internal/service/auth"
-	ridecalc "github.com/Temutjin2k/ride-hail-system/internal/service/calculator"
-	"github.com/Temutjin2k/ride-hail-system/pkg/logger"
-	postgresclient "github.com/Temutjin2k/ride-hail-system/pkg/postgres"
-	"github.com/Temutjin2k/ride-hail-system/pkg/trm"
+	"ride-hail-system/config"
+	httpserver "ride-hail-system/internal/adapter/http/server"
+	"ride-hail-system/internal/adapter/postgres"
+	"ride-hail-system/internal/service/admin"
+	"ride-hail-system/internal/service/auth"
+	ridecalc "ride-hail-system/internal/service/calculator"
+	"ride-hail-system/pkg/logger"
+	postgresclient "ride-hail-system/pkg/postgres"
+	"ride-hail-system/pkg/trm"
 )
 
 type AdminService struct {

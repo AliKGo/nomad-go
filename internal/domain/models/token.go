@@ -3,8 +3,8 @@ package models
 import (
 	"time"
 
-	"github.com/Temutjin2k/ride-hail-system/pkg/uuid"
 	"github.com/golang-jwt/jwt/v5"
+	"ride-hail-system/pkg/uuid"
 )
 
 const (

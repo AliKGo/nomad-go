@@ -4,8 +4,8 @@ import (
 	"math"
 	"time"
 
-	"github.com/Temutjin2k/ride-hail-system/internal/domain/models"
-	"github.com/Temutjin2k/ride-hail-system/internal/domain/types"
+	"ride-hail-system/internal/domain/models"
+	"ride-hail-system/internal/domain/types"
 )
 
 const (

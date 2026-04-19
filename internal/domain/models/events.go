@@ -3,7 +3,7 @@ package models
 import (
 	"time"
 
-	"github.com/Temutjin2k/ride-hail-system/pkg/uuid"
+	"ride-hail-system/pkg/uuid"
 )
 
 // PassengerLocationUpdateDTO - это DTO для WebSocket-сообщения,

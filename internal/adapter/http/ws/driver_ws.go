@@ -6,12 +6,12 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/Temutjin2k/ride-hail-system/internal/adapter/http/ws/dto"
-	"github.com/Temutjin2k/ride-hail-system/internal/domain/models"
-	"github.com/Temutjin2k/ride-hail-system/internal/domain/types"
-	"github.com/Temutjin2k/ride-hail-system/pkg/uuid"
-	"github.com/Temutjin2k/ride-hail-system/pkg/validator"
-	ws "github.com/Temutjin2k/ride-hail-system/pkg/wsHub"
+	"ride-hail-system/internal/adapter/http/ws/dto"
+	"ride-hail-system/internal/domain/models"
+	"ride-hail-system/internal/domain/types"
+	"ride-hail-system/pkg/uuid"
+	"ride-hail-system/pkg/validator"
+	ws "ride-hail-system/pkg/wsHub"
 )
 
 type DriverHub struct {

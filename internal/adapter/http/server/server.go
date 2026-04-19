@@ -7,12 +7,12 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/Temutjin2k/ride-hail-system/config"
-	"github.com/Temutjin2k/ride-hail-system/internal/adapter/http/handler"
-	"github.com/Temutjin2k/ride-hail-system/internal/adapter/http/middleware"
-	"github.com/Temutjin2k/ride-hail-system/internal/domain/types"
-	"github.com/Temutjin2k/ride-hail-system/pkg/logger"
-	wrap "github.com/Temutjin2k/ride-hail-system/pkg/logger/wrapper"
+	"ride-hail-system/config"
+	"ride-hail-system/internal/adapter/http/handler"
+	"ride-hail-system/internal/adapter/http/middleware"
+	"ride-hail-system/internal/domain/types"
+	"ride-hail-system/pkg/logger"
+	wrap "ride-hail-system/pkg/logger/wrapper"
 )
 
 type (

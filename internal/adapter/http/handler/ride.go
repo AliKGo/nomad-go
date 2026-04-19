@@ -7,17 +7,17 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/Temutjin2k/ride-hail-system/internal/adapter/http/handler/dto"
-	"github.com/Temutjin2k/ride-hail-system/internal/domain/models"
-	"github.com/Temutjin2k/ride-hail-system/internal/domain/types"
-	"github.com/Temutjin2k/ride-hail-system/internal/service/auth"
-	"github.com/Temutjin2k/ride-hail-system/pkg/logger"
-	wrap "github.com/Temutjin2k/ride-hail-system/pkg/logger/wrapper"
-	"github.com/Temutjin2k/ride-hail-system/pkg/metrics"
-	"github.com/Temutjin2k/ride-hail-system/pkg/uuid"
-	"github.com/Temutjin2k/ride-hail-system/pkg/validator"
-	wshub "github.com/Temutjin2k/ride-hail-system/pkg/wsHub"
 	"github.com/gorilla/websocket"
+	"ride-hail-system/internal/adapter/http/handler/dto"
+	"ride-hail-system/internal/domain/models"
+	"ride-hail-system/internal/domain/types"
+	"ride-hail-system/internal/service/auth"
+	"ride-hail-system/pkg/logger"
+	wrap "ride-hail-system/pkg/logger/wrapper"
+	"ride-hail-system/pkg/metrics"
+	"ride-hail-system/pkg/uuid"
+	"ride-hail-system/pkg/validator"
+	wshub "ride-hail-system/pkg/wsHub"
 )
 
 type (

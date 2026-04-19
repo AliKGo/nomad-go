@@ -4,8 +4,8 @@
 package server
 
 import (
-	_ "github.com/Temutjin2k/ride-hail-system/docs/admin"  // Admin service swagger docs
-	_ "github.com/Temutjin2k/ride-hail-system/docs/auth"   // Auth service swagger docs  
-	_ "github.com/Temutjin2k/ride-hail-system/docs/driver" // Driver service swagger docs
-	_ "github.com/Temutjin2k/ride-hail-system/docs/ride"   // Ride service swagger docs
+	_ "ride-hail-system/docs/admin"  // Admin service swagger docs
+	_ "ride-hail-system/docs/auth"   // Auth service swagger docs  
+	_ "ride-hail-system/docs/driver" // Driver service swagger docs
+	_ "ride-hail-system/docs/ride"   // Ride service swagger docs
 )

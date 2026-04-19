@@ -3,12 +3,12 @@ package auth
 import (
 	"context"
 
-	"github.com/Temutjin2k/ride-hail-system/internal/domain/models"
-	"github.com/Temutjin2k/ride-hail-system/internal/domain/types"
-	"github.com/Temutjin2k/ride-hail-system/pkg/hasher"
-	"github.com/Temutjin2k/ride-hail-system/pkg/logger"
-	wrap "github.com/Temutjin2k/ride-hail-system/pkg/logger/wrapper"
-	"github.com/Temutjin2k/ride-hail-system/pkg/uuid"
+	"ride-hail-system/internal/domain/models"
+	"ride-hail-system/internal/domain/types"
+	"ride-hail-system/pkg/hasher"
+	"ride-hail-system/pkg/logger"
+	wrap "ride-hail-system/pkg/logger/wrapper"
+	"ride-hail-system/pkg/uuid"
 )
 
 type AuthService struct {

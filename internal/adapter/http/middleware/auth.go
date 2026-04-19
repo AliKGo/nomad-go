@@ -5,9 +5,9 @@ import (
 	"net/http"
 	"strings"
 
-	"github.com/Temutjin2k/ride-hail-system/internal/domain/models"
-	"github.com/Temutjin2k/ride-hail-system/internal/domain/types"
-	wrap "github.com/Temutjin2k/ride-hail-system/pkg/logger/wrapper"
+	"ride-hail-system/internal/domain/models"
+	"ride-hail-system/internal/domain/types"
+	wrap "ride-hail-system/pkg/logger/wrapper"
 )
 
 // --- base auth middleware ---

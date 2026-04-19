@@ -3,8 +3,8 @@ package models
 import (
 	"time"
 
-	"github.com/Temutjin2k/ride-hail-system/internal/domain/types"
-	"github.com/Temutjin2k/ride-hail-system/pkg/uuid"
+	"ride-hail-system/internal/domain/types"
+	"ride-hail-system/pkg/uuid"
 )
 
 /* ======================= for admin service ======================= */

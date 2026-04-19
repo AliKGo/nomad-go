@@ -4,8 +4,8 @@ import (
 	"context"
 	"time"
 
-	"github.com/Temutjin2k/ride-hail-system/config"
 	"github.com/jackc/pgx/v5/pgxpool"
+	"ride-hail-system/config"
 )
 
 type PostgreDB struct {

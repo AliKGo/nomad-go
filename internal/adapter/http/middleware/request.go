@@ -7,7 +7,7 @@ import (
 	"net/http"
 	"time"
 
-	wrap "github.com/Temutjin2k/ride-hail-system/pkg/logger/wrapper"
+	wrap "ride-hail-system/pkg/logger/wrapper"
 )
 
 // RequestID injects request_id to the request ctx

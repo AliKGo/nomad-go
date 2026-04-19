@@ -7,7 +7,7 @@ import (
 	"slices"
 	"strings"
 
-	"github.com/Temutjin2k/ride-hail-system/pkg/validator"
+	"ride-hail-system/pkg/validator"
 )
 
 // Filters represents pagination and sorting options for list endpoints.

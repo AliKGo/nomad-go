@@ -7,11 +7,11 @@ import (
 	"github.com/jackc/pgx/v5"
 	"github.com/jackc/pgx/v5/pgxpool"
 
-	"github.com/Temutjin2k/ride-hail-system/internal/domain/models"
-	"github.com/Temutjin2k/ride-hail-system/internal/domain/types"
-	wrap "github.com/Temutjin2k/ride-hail-system/pkg/logger/wrapper"
-	"github.com/Temutjin2k/ride-hail-system/pkg/postgres"
-	"github.com/Temutjin2k/ride-hail-system/pkg/uuid"
+	"ride-hail-system/internal/domain/models"
+	"ride-hail-system/internal/domain/types"
+	wrap "ride-hail-system/pkg/logger/wrapper"
+	"ride-hail-system/pkg/postgres"
+	"ride-hail-system/pkg/uuid"
 )
 
 type DriverRepo struct {

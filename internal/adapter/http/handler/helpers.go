@@ -12,10 +12,10 @@ import (
 	"strconv"
 	"strings"
 
-	t "github.com/Temutjin2k/ride-hail-system/internal/domain/types"
-	authSvc "github.com/Temutjin2k/ride-hail-system/internal/service/auth"
-	"github.com/Temutjin2k/ride-hail-system/pkg/validator"
 	"github.com/jackc/pgx/v5"
+	t "ride-hail-system/internal/domain/types"
+	authSvc "ride-hail-system/internal/service/auth"
+	"ride-hail-system/pkg/validator"
 )
 
 type envelope map[string]any

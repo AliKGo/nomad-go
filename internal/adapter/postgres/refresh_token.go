@@ -6,9 +6,9 @@ import (
 	"errors"
 	"time"
 
-	"github.com/Temutjin2k/ride-hail-system/internal/domain/models"
-	"github.com/Temutjin2k/ride-hail-system/pkg/uuid"
 	"github.com/jackc/pgx/v5/pgxpool"
+	"ride-hail-system/internal/domain/models"
+	"ride-hail-system/pkg/uuid"
 )
 
 type RefreshTokenRepo struct {
