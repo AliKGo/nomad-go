@@ -7,7 +7,6 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/gorilla/websocket"
 	"ride-hail-system/internal/adapter/http/handler/dto"
 	"ride-hail-system/internal/domain/models"
 	"ride-hail-system/internal/domain/types"
@@ -19,6 +18,8 @@ import (
 	"ride-hail-system/pkg/uuid"
 	"ride-hail-system/pkg/validator"
 	wshub "ride-hail-system/pkg/wsHub"
+
+	"github.com/gorilla/websocket"
 )
 
 type Driver struct {

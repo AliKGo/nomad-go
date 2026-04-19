@@ -133,11 +133,20 @@ func newHandlers(
 	wshub handler.ConnectionHub,
 	logger logger.Logger,
 ) *handlers {
-	return &handlers{
-		ride:   handler.NewRide(rideService, authService, wshub, logger),
-		driver: handler.NewDriver(driverService, logger),
-		admin:  handler.NewAdmin(adminService, logger),
-		auth:   handler.NewAuth(authService, logger),
+	h := &handlers{
 		health: handler.NewHealth(cfg.Mode.String(), logger),
 	}
+
+	switch cfg.Mode {
+	case types.RideService:
+		h.ride = handler.NewRide(rideService, authService, wshub, logger)
+	case types.DriverAndLocationService:
+		h.driver = handler.NewDriver(driverService, logger)
+	case types.AdminService:
+		h.admin = handler.NewAdmin(adminService, logger)
+	case types.AuthService:
+		h.auth = handler.NewAuth(authService, logger)
+	}
+
+	return h
 }
