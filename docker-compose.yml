@@ -1,0 +1,227 @@
+version: '3.8'
+
+networks:
+  net:
+    driver: bridge
+
+volumes:
+  rabbitmq_data:
+  prometheus_data:
+  grafana_data:
+  loki_data:
+
+services: 
+  nginx:
+    image: nginx:latest
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+    networks:
+      - net
+    depends_on:
+      - auth-service
+      - ride-service
+      - driver-service
+      - admin-service
+
+  postgresql:
+    image: postgis/postgis:16-3.4
+    hostname: postgresql
+    ports:
+      - 5432:5432
+    networks:
+      - net
+    volumes:
+      - ./data/postgresql:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: ridehail_user
+      POSTGRES_PASSWORD: ridehail_pass
+      POSTGRES_DB: ridehail_db
+    restart: always
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ridehail_user -d ridehail_db"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  migrate:
+    image: migrate/migrate
+    networks:
+      - net
+    volumes:
+      - ./migrations:/migrations
+    command:
+      [
+        "-path", "/migrations",
+        "-database", "postgres://ridehail_user:ridehail_pass@postgresql:5432/ridehail_db?sslmode=disable",
+        "up"
+      ]
+    depends_on:
+      postgresql:
+        condition: service_healthy
+
+  rabbitmq:
+    image: rabbitmq:management
+    hostname: rabbitmq
+    networks:
+      - net
+    ports:
+      - "5672:5672"    # AMQP
+      - "15672:15672"  # Management UI
+    volumes:
+      - ./data/rabbitmq:/var/lib/rabbitmq
+      - ./rabbitmq.conf:/etc/rabbitmq/rabbitmq.conf:ro
+      - ./rabbitmq_definitions.json:/etc/rabbitmq/rabbitmq_definitions.json:ro
+    restart: always
+    healthcheck:
+      test: ["CMD", "rabbitmq-diagnostics", "-q", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  postgres-exporter:
+    image: prometheuscommunity/postgres-exporter:latest
+    hostname: postgres-exporter
+    networks:
+      - net
+    ports:
+      - "9187:9187"
+    environment:
+      DATA_SOURCE_NAME: "postgresql://ridehail_user:ridehail_pass@postgresql:5432/ridehail_db?sslmode=disable"
+    restart: unless-stopped
+    depends_on:
+      postgresql:
+        condition: service_healthy
+
+  # Services
+
+  driver-service:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    networks:
+      - net
+    depends_on:
+      postgresql:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
+    command: ["./main", "--mode=driver-service"]
+    ports:
+      - "3001:3001"  
+    restart: unless-stopped
+
+  admin-service:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    networks:
+      - net
+    depends_on:
+      postgresql:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
+    command: ["./main", "--mode=admin-service"]
+    ports:
+      - "3004:3004"
+    restart: unless-stopped
+
+  auth-service:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    networks:
+      - net
+    depends_on:
+      postgresql:
+        condition: service_healthy
+    command: ["./main", "--mode=auth-service"]
+    ports:
+      - "3005:3005"
+    restart: unless-stopped
+
+  ride-service:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    networks:
+      - net
+    depends_on:
+      postgresql:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
+    command: ["./main", "--mode=ride-service"]
+    ports:
+      - "3000:3000"
+    restart: unless-stopped
+
+  # Observability Stack
+
+  prometheus:
+    image: prom/prometheus:latest
+    hostname: prometheus
+    networks:
+      - net
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./observability/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+      - prometheus_data:/prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+      - '--web.console.libraries=/usr/share/prometheus/console_libraries'
+      - '--web.console.templates=/usr/share/prometheus/consoles'
+    restart: unless-stopped
+
+  grafana:
+    image: grafana/grafana:latest
+    hostname: grafana
+    networks:
+      - net
+    ports:
+      - "3333:3000"
+    volumes:
+      - grafana_data:/var/lib/grafana
+      - ./observability/grafana/provisioning:/etc/grafana/provisioning:ro
+      - ./observability/grafana/dashboards:/etc/grafana/dashboards:ro
+    environment:
+      - GF_SECURITY_ADMIN_USER=admin
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+      - GF_USERS_ALLOW_SIGN_UP=false
+    restart: unless-stopped
+    depends_on:
+      prometheus:
+        condition: service_started
+      loki:
+        condition: service_started
+
+  loki:
+    image: grafana/loki:latest
+    hostname: loki
+    networks:
+      - net
+    ports:
+      - "3100:3100"
+    volumes:
+      - loki_data:/loki
+      - ./observability/loki-config.yml:/etc/loki/local-config.yaml:ro
+    command: -config.file=/etc/loki/local-config.yaml
+    restart: unless-stopped
+
+  promtail:
+    image: grafana/promtail:latest
+    hostname: promtail
+    networks:
+      - net
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - /var/lib/docker/containers:/var/lib/docker/containers:ro
+      - ./observability/promtail-config.yml:/etc/promtail/config.yml:ro
+    command: -config.file=/etc/promtail/config.yml
+    restart: unless-stopped
+    depends_on:
+      - loki
