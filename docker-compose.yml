@@ -13,8 +13,6 @@ services:
   postgresql:
     image: postgis/postgis:16-3.4
     hostname: postgresql
-    ports:
-      - "5432:5432"
     networks:
       - net
     volumes:
@@ -24,15 +22,33 @@ services:
       POSTGRES_PASSWORD: ridehail_pass
       POSTGRES_DB: ridehail_db
     restart: always
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ridehail_user -d ridehail_db"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  migrate:
+    image: migrate/migrate
+    networks:
+      - net
+    volumes:
+      - ./migrations:/migrations
+    command:
+      [
+        "-path", "/migrations",
+        "-database", "postgres://ridehail_user:ridehail_pass@postgresql:5432/ridehail_db?sslmode=disable",
+        "up"
+      ]
+    depends_on:
+      - postgresql
+    restart: on-failure:5
 
   rabbitmq:
     image: rabbitmq:3.12-management-alpine
     hostname: rabbitmq
     networks:
       - net
-    ports:
-      - "5672:5672"
-      - "15672:15672"
     volumes:
       - rabbitmq_data:/var/lib/rabbitmq
       - ./rabbitmq.conf:/etc/rabbitmq/rabbitmq.conf:ro
@@ -42,6 +58,17 @@ services:
       RABBITMQ_DEFAULT_PASS: guest
     restart: always
 
+  postgres-exporter:
+    image: prometheuscommunity/postgres-exporter:latest
+    hostname: postgres-exporter
+    networks:
+      - net
+    environment:
+      DATA_SOURCE_NAME: "postgresql://ridehail_user:ridehail_pass@postgresql:5432/ridehail_db?sslmode=disable"
+    restart: unless-stopped
+    depends_on:
+      - postgresql
+
   auth-service:
     build: .
     networks:
@@ -49,8 +76,6 @@ services:
     depends_on:
       - postgresql
     command: ["./main", "--mode=auth-service"]
-    ports:
-      - "3005:3005"
     restart: on-failure:5
     environment:
       - DB_HOST=postgresql
@@ -66,8 +91,6 @@ services:
       - postgresql
       - rabbitmq
     command: ["./main", "--mode=ride-service"]
-    ports:
-      - "3000:3000"
     restart: on-failure:5
     environment:
       - DB_HOST=postgresql
@@ -82,8 +105,6 @@ services:
       - postgresql
       - rabbitmq
     command: ["./main", "--mode=driver-service"]
-    ports:
-      - "3001:3001"
     restart: on-failure:5
     environment:
       - DB_HOST=postgresql
@@ -98,13 +119,12 @@ services:
       - postgresql
       - rabbitmq
     command: ["./main", "--mode=admin-service"]
-    ports:
-      - "3004:3004"
     restart: on-failure:5
     environment:
       - DB_HOST=postgresql
       - RABBITMQ_HOST=rabbitmq
       - RABBITMQ_PORT=5672
+
 
   nginx:
     image: nginx:latest
@@ -121,42 +141,48 @@ services:
       - admin-service
     restart: unless-stopped
 
-  # Мониторинг
   prometheus:
     image: prom/prometheus:latest
+    hostname: prometheus
     networks:
       - net
-    ports:
-      - "9090:9090"
     volumes:
       - ./observability/prometheus.yml:/etc/prometheus/prometheus.yml:ro
       - prometheus_data:/prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
     restart: unless-stopped
 
   grafana:
     image: grafana/grafana:latest
+    hostname: grafana
     networks:
       - net
-    ports:
-      - "3333:3000"
     volumes:
       - grafana_data:/var/lib/grafana
+    environment:
+      - GF_SECURITY_ADMIN_USER=admin
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+      - GF_USERS_ALLOW_SIGN_UP=false
     depends_on:
       - prometheus
     restart: unless-stopped
 
   loki:
     image: grafana/loki:latest
+    hostname: loki
     networks:
       - net
-    ports:
-      - "3100:3100"
     volumes:
       - loki_data:/loki
+      - ./observability/loki-config.yml:/etc/loki/local-config.yaml:ro
+    command: -config.file=/etc/loki/local-config.yaml
     restart: unless-stopped
 
   promtail:
     image: grafana/promtail:latest
+    hostname: promtail
     networks:
       - net
     volumes:
@@ -164,15 +190,5 @@ services:
       - ./observability/promtail-config.yml:/etc/promtail/config.yml:ro
     command: -config.file=/etc/promtail/config.yml
     restart: unless-stopped
-
-  postgres-exporter:
-    image: prometheuscommunity/postgres-exporter:latest
-    networks:
-      - net
-    ports:
-      - "9187:9187"
-    environment:
-      DATA_SOURCE_NAME: "postgresql://ridehail_user:ridehail_pass@postgresql:5432/ridehail_db?sslmode=disable"
     depends_on:
-      - postgresql
-    restart: unless-stopped
+      - loki
