@@ -161,7 +161,7 @@ services:
       - net
     volumes:
       - /var/log:/var/log:ro
-      - ./observability/promtail.yml:/etc/promtail/config.yml:ro
+      - ./observability/promtail-config.yml:/etc/promtail/config.yml:ro
     command: -config.file=/etc/promtail/config.yml
     restart: unless-stopped
 
