@@ -69,6 +69,10 @@ services:
     depends_on:
       - postgresql
 
+  # ============================================
+  # Services - НЕ ДОСТУПНЫ ИЗВНЕ (нет ports)
+  # ============================================
+
   auth-service:
     build: .
     networks:
@@ -125,6 +129,9 @@ services:
       - RABBITMQ_HOST=rabbitmq
       - RABBITMQ_PORT=5672
 
+  # ============================================
+  # NGINX - ЕДИНСТВЕННЫЙ ОТКРЫТЫЙ СЕРВИС
+  # ============================================
 
   nginx:
     image: nginx:latest
@@ -135,11 +142,19 @@ services:
     networks:
       - net
     depends_on:
-      - auth-service
-      - ride-service
-      - driver-service
-      - admin-service
+      auth-service:
+        condition: service_started
+      ride-service:
+        condition: service_started
+      driver-service:
+        condition: service_started
+      admin-service:
+        condition: service_started
     restart: unless-stopped
+
+  # ============================================
+  # Observability
+  # ============================================
 
   prometheus:
     image: prom/prometheus:latest
@@ -175,8 +190,8 @@ services:
     networks:
       - net
     volumes:
-      - loki_data:/loki
       - ./observability/loki-config.yml:/etc/loki/local-config.yaml:ro
+      - loki_data:/loki
     command: -config.file=/etc/loki/local-config.yaml
     restart: unless-stopped
 

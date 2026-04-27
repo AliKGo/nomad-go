@@ -4,18 +4,19 @@ import (
 	"context"
 	"net/http"
 
-	"github.com/prometheus/client_golang/prometheus/promhttp"
-	httpSwagger "github.com/swaggo/http-swagger"
 	"ride-hail-system/internal/adapter/http/middleware"
 	"ride-hail-system/internal/domain/types"
 	"ride-hail-system/pkg/logger"
 	wrap "ride-hail-system/pkg/logger/wrapper"
+
+	"github.com/prometheus/client_golang/prometheus/promhttp"
+	httpSwagger "github.com/swaggo/http-swagger"
 )
 
 // setupRoutes - setups http routes
 func setupRoutes(mux *http.ServeMux, routes *handlers, m *middleware.Middleware, mode types.ServiceMode, log logger.Logger) {
 	// System Health
-	mux.HandleFunc("/health", routes.health.HealthCheck)
+	mux.HandleFunc("GET /health", routes.health.HealthCheck)
 
 	setupSwaggerRoutes(mux, mode, log)
 	setupMetricsRoute(mux)
