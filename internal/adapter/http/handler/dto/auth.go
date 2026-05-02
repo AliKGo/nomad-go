@@ -5,25 +5,29 @@ import (
 	"ride-hail-system/pkg/validator"
 )
 
+type RegisterUserAttrs struct {
+	City    string `json:"city,omitempty"`
+	Country string `json:"country,omitempty"`
+}
+
 type RegisterUserRequest struct {
-	Name     string         `json:"name"`
-	Phone    string         `json:"phone"`
-	Email    string         `json:"email"`
-	Password string         `json:"password"`
-	Attrs    map[string]any `json:"attrs,omitempty"`
+	Name     string             `json:"name"`
+	Phone    string             `json:"phone"`
+	Email    string             `json:"email"`
+	Password string             `json:"password"`
+	Attrs    *RegisterUserAttrs `json:"attrs,omitempty"`
 }
 
 func (r *RegisterUserRequest) ToModel() *models.UserCreateRequest {
-	if r.Attrs == nil {
-		r.Attrs = make(map[string]any)
-	}
-	r.Attrs["name"] = r.Name
-	r.Attrs["phone"] = r.Phone
+	attrs := make(map[string]any)
+
+	attrs["name"] = r.Name
+	attrs["phone"] = r.Phone
 	return &models.UserCreateRequest{
 		Name:     r.Name,
 		Email:    r.Email,
 		Password: r.Password,
-		Attrs:    r.Attrs,
+		Attrs:    attrs,
 	}
 }
 

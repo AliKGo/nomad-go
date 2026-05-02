@@ -57,7 +57,7 @@ func (h *Middleware) RequireRoles(next http.HandlerFunc, allowedRoles ...types.U
 		user := models.UserFromContext(r.Context())
 		if user == nil || user.IsAnonymous() {
 			errorResponse(w, http.StatusUnauthorized, "authorization required")
-			return
+			returnА
 		}
 
 		// Check if user's role is in the allowed list
