@@ -15,6 +15,7 @@ import (
 	ridecalc "ride-hail-system/internal/service/calculator"
 	"ride-hail-system/pkg/logger"
 	wrap "ride-hail-system/pkg/logger/wrapper"
+	"ride-hail-system/pkg/metrics"
 	"ride-hail-system/pkg/trm"
 	"ride-hail-system/pkg/uuid"
 )
@@ -138,6 +139,7 @@ func (s *RideService) Create(ctx context.Context, ride *models.Ride) (*models.Ri
 	}
 
 	s.logger.Info(ctx, "ride created successfully", "ride_id", createdRide.ID)
+	metrics.ActiveRidesGauge.Inc()
 
 	// Wait for driver response for 2 minutes
 	go func() {
@@ -234,6 +236,7 @@ func (s *RideService) Cancel(ctx context.Context, rideID, passengerID uuid.UUID,
 	}
 
 	s.logger.Info(ctx, "ride cancelled successfully")
+	metrics.ActiveRidesGauge.Dec()
 
 	return cancelledRide, nil
 }

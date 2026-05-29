@@ -13,6 +13,7 @@ import (
 	"ride-hail-system/internal/domain/types"
 	"ride-hail-system/pkg/logger"
 	wrap "ride-hail-system/pkg/logger/wrapper"
+	"ride-hail-system/pkg/metrics"
 	"ride-hail-system/pkg/rabbit"
 )
 
@@ -69,6 +70,7 @@ func (r *DriverBroker) publish(ctx context.Context, exchange, routingKey string,
 		return fmt.Errorf("publish: %w", err)
 	}
 
+	metrics.RabbitMQPublishedTotal.WithLabelValues(exchange, routingKey).Inc()
 	return nil
 }
 
@@ -206,6 +208,8 @@ func (r *DriverBroker) ConsumeStatusUpdate(ctx context.Context, fn MatchConfHand
 						return
 					}
 
+					metrics.RabbitMQConsumedTotal.WithLabelValues(QueueRideStatus).Inc()
+
 					ctxx := wrap.WithRequestID(wrap.WithRideID(ctx, req.RideID.String()), msg.CorrelationId)
 
 					// Вызов обработчика
@@ -233,6 +237,8 @@ func (r *DriverBroker) handleRideRequested(ctx context.Context, fn ConsumeRideHa
 		_ = msg.Nack(false, false)
 		return
 	}
+
+	metrics.RabbitMQConsumedTotal.WithLabelValues(QueueRideRequests).Inc()
 
 	ctxx := wrap.WithRequestID(wrap.WithRideID(ctx, req.RideType), msg.CorrelationId)
 

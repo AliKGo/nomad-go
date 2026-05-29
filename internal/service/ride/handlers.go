@@ -10,6 +10,7 @@ import (
 	"ride-hail-system/internal/domain/models"
 	"ride-hail-system/internal/domain/types"
 	wrap "ride-hail-system/pkg/logger/wrapper"
+	"ride-hail-system/pkg/metrics"
 )
 
 // HandleDriverResponse processes driver match responses.
@@ -357,6 +358,7 @@ func (s *RideService) handleRideCompleted(ctx context.Context, ride *models.Ride
 	}
 
 	s.logger.Info(ctx, "updated ride status to COMPLETED")
+	metrics.ActiveRidesGauge.Dec()
 
 	// отправляем пассажиру сообщение по вебсокету
 	wsMessage := models.StatusUpdateWebSocketMessage{

@@ -12,6 +12,7 @@ import (
 	"ride-hail-system/internal/domain/models"
 	"ride-hail-system/pkg/logger"
 	wrap "ride-hail-system/pkg/logger/wrapper"
+	"ride-hail-system/pkg/metrics"
 	"ride-hail-system/pkg/rabbit"
 	"ride-hail-system/pkg/uuid"
 )
@@ -84,6 +85,7 @@ func (r *RideBroker) PublishRideRequested(ctx context.Context, msg models.RideRe
 		return wrap.Error(ctx, err)
 	}
 
+	metrics.RabbitMQPublishedTotal.WithLabelValues(r.RideExchange, key).Inc()
 	return nil
 }
 
@@ -127,6 +129,7 @@ func (r *RideBroker) PublishRideStatus(ctx context.Context, msg models.RideStatu
 		return wrap.Error(ctx, err)
 	}
 
+	metrics.RabbitMQPublishedTotal.WithLabelValues(r.RideExchange, key).Inc()
 	return nil
 }
 
@@ -182,6 +185,8 @@ func (r *RideBroker) ConsumeDriverStatusUpdate(ctx context.Context, handler Driv
 						d.Nack(false, false) // не подтверждаем сообщение
 						return
 					}
+
+					metrics.RabbitMQConsumedTotal.WithLabelValues(QueueDriverStatusUpdate).Inc()
 
 					// добавляем в контекст переменные для логирования и трассировки
 					ctxx := wrap.WithRequestID(ctx, d.CorrelationId)
@@ -251,6 +256,8 @@ func (r *RideBroker) ConsumeDriverResponse(ctx context.Context, targetRideID uui
 					}
 					continue consumeLoop
 				}
+
+				metrics.RabbitMQConsumedTotal.WithLabelValues(QueueDriverResponse).Inc()
 
 				if req.RideID != targetRideID {
 					// не наш rideID - вернуть в очередь для других потребителей
@@ -346,6 +353,8 @@ func (r *RideBroker) ConsumeDriverLocationUpdate(ctx context.Context, handler Lo
 						_ = d.Nack(false, false)
 						return
 					}
+
+					metrics.RabbitMQConsumedTotal.WithLabelValues(QueueLocationUpdate).Inc()
 
 					// enrich context for logging/tracing
 					if req.RideID == nil {

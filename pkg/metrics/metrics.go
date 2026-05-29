@@ -39,9 +39,16 @@ var (
 	RidesTotal = promauto.NewCounterVec(
 		prometheus.CounterOpts{
 			Name: "rides_total",
-			Help: "Total number of rides created",
+			Help: "Total number of rides by status",
 		},
 		[]string{"service", "status"},
+	)
+
+	ActiveRidesGauge = promauto.NewGauge(
+		prometheus.GaugeOpts{
+			Name: "active_rides_total",
+			Help: "Current number of active rides",
+		},
 	)
 
 	DriversOnlineGauge = promauto.NewGaugeVec(
@@ -59,11 +66,50 @@ var (
 		},
 		[]string{"service"},
 	)
+
+	// RabbitMQ metrics
+	RabbitMQPublishedTotal = promauto.NewCounterVec(
+		prometheus.CounterOpts{
+			Name: "rabbitmq_messages_published_total",
+			Help: "Total number of messages published to RabbitMQ",
+		},
+		[]string{"exchange", "routing_key"},
+	)
+
+	RabbitMQConsumedTotal = promauto.NewCounterVec(
+		prometheus.CounterOpts{
+			Name: "rabbitmq_messages_consumed_total",
+			Help: "Total number of messages consumed from RabbitMQ",
+		},
+		[]string{"queue"},
+	)
+
+	// Database metrics
+	DBQueriesTotal = promauto.NewCounterVec(
+		prometheus.CounterOpts{
+			Name: "database_queries_total",
+			Help: "Total number of database queries",
+		},
+		[]string{"operation"},
+	)
+
+	DBQueryDuration = promauto.NewHistogramVec(
+		prometheus.HistogramOpts{
+			Name:    "database_query_duration_seconds",
+			Help:    "Database query duration in seconds",
+			Buckets: prometheus.DefBuckets,
+		},
+		[]string{"operation"},
+	)
 )
 
-// RecordHTTPMetrics records HTTP request metrics
 func RecordHTTPMetrics(service, method, path string, statusCode int, duration time.Duration) {
 	status := strconv.Itoa(statusCode)
 	HttpRequestsTotal.WithLabelValues(service, method, path, status).Inc()
 	HttpRequestDuration.WithLabelValues(service, method, path, status).Observe(duration.Seconds())
+}
+
+func RecordDBQuery(operation string, duration time.Duration) {
+	DBQueriesTotal.WithLabelValues(operation).Inc()
+	DBQueryDuration.WithLabelValues(operation).Observe(duration.Seconds())
 }
