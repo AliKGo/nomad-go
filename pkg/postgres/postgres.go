@@ -37,6 +37,8 @@ func New(ctx context.Context, config config.DatabaseConfig) (*PostgreDB, error) 
 	dbConfig.MaxConnLifetime = config.MaxConnLifetime
 	dbConfig.MaxConnIdleTime = config.MaxConnIdleTime
 
+	dbConfig.ConnConfig.Tracer = &MetricsTracer{}
+
 	pool, err := pgxpool.NewWithConfig(ctx, dbConfig)
 	if err != nil {
 		return nil, err
