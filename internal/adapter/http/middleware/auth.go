@@ -37,7 +37,7 @@ func (h *Middleware) Auth(next http.Handler) http.Handler {
 		user, err := h.auth.RoleCheck(ctx, token)
 		if err != nil || user == nil {
 			h.log.Error(wrap.ErrorCtx(ctx, err), "failed to authenticate user", err)
-			errorResponse(w, http.StatusUnauthorized, "invalid credentials")
+			errorResponse(w, http.StatusUnauthorized, err.Error())
 			return
 		}
 		ctx = wrap.WithUserID(ctx, user.ID.String())
