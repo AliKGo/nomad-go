@@ -12,7 +12,7 @@ package docs
 // @license.name  Apache 2.0
 // @license.url   http://www.apache.org/licenses/LICENSE-2.0.html
 
-// @host      localhost:80/admin
+// @host      192.168.223.128:80/admin
 // @BasePath  /
 
 // @securityDefinitions.apikey BearerAuth
