@@ -8,6 +8,7 @@ import (
 	"time"
 
 	"ride-hail-system/config"
+	_ "ride-hail-system/docs/admin"
 	httpserver "ride-hail-system/internal/adapter/http/server"
 	"ride-hail-system/internal/adapter/postgres"
 	"ride-hail-system/internal/service/admin"

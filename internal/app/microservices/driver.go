@@ -8,6 +8,7 @@ import (
 	"syscall"
 
 	"ride-hail-system/config"
+	_ "ride-hail-system/docs/driver"
 	"ride-hail-system/internal/adapter/http/handler"
 	"ride-hail-system/internal/adapter/http/server"
 	wshandler "ride-hail-system/internal/adapter/http/ws"

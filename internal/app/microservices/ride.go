@@ -11,6 +11,7 @@ import (
 
 	"ride-hail-system/config"
 	httpserver "ride-hail-system/internal/adapter/http/server"
+	_ "ride-hail-system/docs/ride"
 	wshandler "ride-hail-system/internal/adapter/http/ws"
 	repo "ride-hail-system/internal/adapter/postgres"
 	"ride-hail-system/internal/adapter/rabbit"

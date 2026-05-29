@@ -9,6 +9,7 @@ import (
 
 	"ride-hail-system/config"
 	httpserver "ride-hail-system/internal/adapter/http/server"
+	_ "ride-hail-system/docs/auth"
 	"ride-hail-system/internal/adapter/postgres"
 	"ride-hail-system/internal/service/auth"
 	"ride-hail-system/pkg/logger"
