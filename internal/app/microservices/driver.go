@@ -19,6 +19,7 @@ import (
 	ridecalc "ride-hail-system/internal/service/calculator"
 	drivergo "ride-hail-system/internal/service/driver"
 	"ride-hail-system/pkg/logger"
+	"ride-hail-system/pkg/metrics"
 	"ride-hail-system/pkg/postgres"
 	"ride-hail-system/pkg/rabbit"
 	"ride-hail-system/pkg/trm"
@@ -124,6 +125,8 @@ func NewDriver(ctx context.Context, cfg config.Config, log logger.Logger) (*Driv
 		log.Error(ctx, "Failed to setup http server", err)
 		return nil, err
 	}
+
+	metrics.WebSocketConnectionsGauge.WithLabelValues("driver_service").Set(0)
 
 	return &DriverService{
 		httpServer: httpServer,

@@ -19,6 +19,7 @@ import (
 	ridecalc "ride-hail-system/internal/service/calculator"
 	ridego "ride-hail-system/internal/service/ride"
 	"ride-hail-system/pkg/logger"
+	"ride-hail-system/pkg/metrics"
 	postgres "ride-hail-system/pkg/postgres"
 	rabbitmq "ride-hail-system/pkg/rabbit"
 	"ride-hail-system/pkg/trm"
@@ -151,6 +152,8 @@ func NewRide(ctx context.Context, cfg config.Config, log logger.Logger) (*RideSe
 	if err != nil {
 		return nil, fmt.Errorf("failed to setup http server: %w", err)
 	}
+
+	metrics.WebSocketConnectionsGauge.WithLabelValues("ride_service").Set(0)
 
 	return &RideService{
 		httpServer: httpServer,
