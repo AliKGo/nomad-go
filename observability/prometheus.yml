@@ -4,7 +4,24 @@ global:
 scrape_configs:
   - job_name: 'prometheus'
     static_configs:
-      - targets: ['localhost:9090']
+      - targets: ['prometheus:9090']
+
   - job_name: 'postgres'
     static_configs:
       - targets: ['postgres-exporter:9187']
+
+  - job_name: 'nginx'
+    static_configs:
+      - targets: ['nginx-exporter:9113']
+
+  - job_name: 'rabbitmq'
+    static_configs:
+     - targets: [ 'rabbitmq:15692' ]
+
+  - job_name: 'nomad-go-services'
+    static_configs:
+      - targets:
+          - 'auth-service:3005'
+          - 'ride-service:3000'
+          - 'driver-service:3001'
+          - 'admin-service:3004'

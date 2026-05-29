@@ -11,7 +11,7 @@ import (
 func PrintConfig(cfg any) {
 	fmt.Println("Configuration:")
 	fmt.Println("--------------")
-	printReflected(reflect.ValueOf(cfg), "", 0)
+	//printReflected(reflect.ValueOf(cfg), "", 0)
 }
 
 func printReflected(v reflect.Value, fieldName string, depth int) {

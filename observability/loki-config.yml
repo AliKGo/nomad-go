@@ -36,9 +36,5 @@ storage_config:
   filesystem:
     directory: /loki/chunks
 
-# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-# КОМПАКТОР (СЖАТИЕ ИНДЕКСОВ TSDB)
-# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 compactor:
   working_directory: /loki/compactor
-  # Убрано shared_store, так как в новых версиях Loki он берется из schema_config

@@ -3,6 +3,7 @@ package ride
 import (
 	"context"
 	"flag"
+	"fmt"
 	"os"
 
 	"ride-hail-system/config"
@@ -34,6 +35,7 @@ func Run() {
 
 	// Printing configuration
 	config.PrintConfig(cfg)
+	fmt.Println(*cfg)
 
 	if cfg.Mode != "" {
 		log = logger.InitLogger(string(cfg.Mode), logger.LevelDebug)

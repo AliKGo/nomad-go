@@ -6,7 +6,6 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/golang-jwt/jwt/v5"
 	"ride-hail-system/internal/domain/models"
 	"ride-hail-system/internal/domain/types"
 	"ride-hail-system/pkg/hasher"
@@ -14,6 +13,8 @@ import (
 	wrap "ride-hail-system/pkg/logger/wrapper"
 	"ride-hail-system/pkg/trm"
 	"ride-hail-system/pkg/uuid"
+
+	"github.com/golang-jwt/jwt/v5"
 )
 
 type TokenService struct {
@@ -175,7 +176,6 @@ func (s *TokenService) Refresh(ctx context.Context, refreshToken string) (*model
 // Validate validates the given JWT token string, returning the custom claims if valid.
 func (s *TokenService) Validate(ctx context.Context, token string) (*models.CustomClaims, error) {
 	ctx = wrap.WithAction(ctx, "validate_token")
-
 	parsedToken, err := jwt.ParseWithClaims(token, jwt.MapClaims{}, func(t *jwt.Token) (any, error) {
 		if t.Method != jwt.SigningMethodHS256 {
 			return nil, ErrInvalidToken
@@ -185,17 +185,14 @@ func (s *TokenService) Validate(ctx context.Context, token string) (*models.Cust
 	if err != nil || !parsedToken.Valid {
 		return nil, wrap.Error(ctx, ErrInvalidToken)
 	}
-
 	mc, ok := parsedToken.Claims.(jwt.MapClaims)
 	if !ok {
 		return nil, wrap.Error(ctx, ErrInvalidToken)
 	}
-
 	typ, _ := mc["typ"].(string)
 	if !models.IsValidTokenType(typ) {
 		return nil, wrap.Error(ctx, ErrInvalidToken)
 	}
-
 	userIDStr, _ := mc["user_id"].(string)
 	if userIDStr == "" {
 		return nil, wrap.Error(ctx, fmt.Errorf("invalid or missing 'user_id' in token claims"))
@@ -204,7 +201,6 @@ func (s *TokenService) Validate(ctx context.Context, token string) (*models.Cust
 	if err != nil {
 		return nil, wrap.Error(ctx, fmt.Errorf("invalid 'user_id' in token claims"))
 	}
-
 	tokenIDStr, _ := mc["jti"].(string)
 	if tokenIDStr == "" {
 		return nil, wrap.Error(ctx, fmt.Errorf("invalid or missing 'jti' in token claims"))
@@ -213,7 +209,6 @@ func (s *TokenService) Validate(ctx context.Context, token string) (*models.Cust
 	if err != nil {
 		return nil, wrap.Error(ctx, fmt.Errorf("invalid 'jti' in token claims"))
 	}
-
 	email, _ := mc["email"].(string)
 	role, _ := mc["role"].(string)
 
@@ -221,7 +216,6 @@ func (s *TokenService) Validate(ctx context.Context, token string) (*models.Cust
 	if !ok {
 		return nil, wrap.Error(ctx, fmt.Errorf("invalid or missing 'exp' in token claims"))
 	}
-
 	expTime := time.Unix(int64(expFloat), 0)
 	if time.Now().UTC().After(expTime) {
 		return nil, wrap.Error(ctx, ErrExpToken)

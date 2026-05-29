@@ -7,11 +7,12 @@ database:
   database: ${DB_NAME:-ridehail_db}
 
 # RabbitMQ Configuration
+# RabbitMQ Configuration
 rabbitmq:
   host: ${RABBITMQ_HOST:-rabbitmq}
   port: ${RABBITMQ_PORT:-5672}
   user: ${RABBITMQ_USER:-admin}
-  password: ${RABBITMQ_PASSWORD:-admin}
+  password: ${RABBITMQ_PASSWORD:-tl0BNzGUswvcfZZ9qTf0PYLDvRUJ9P3Ka2JJZAhF4iLFLgoy}
 
 # WebSocket Configuration
 websocket:
@@ -27,7 +28,7 @@ services:
 externalapiconfig:
   locationiqapikey: ${LOCATIONIQ_API_KEY}
 
-auth: 
+auth:
   access_token_ttl: ${AUTH_ACCESS_TOKEN_TTL:-1h}
   refresh_token_ttl: ${AUTH_REFRESH_TOKEN_TTL:-168h}
   jwt_secret: ${AUTH_JWT_SECRET:-supersecretkey}
