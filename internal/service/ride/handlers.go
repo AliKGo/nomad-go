@@ -359,6 +359,7 @@ func (s *RideService) handleRideCompleted(ctx context.Context, ride *models.Ride
 
 	s.logger.Info(ctx, "updated ride status to COMPLETED")
 	metrics.ActiveRidesGauge.Dec()
+	metrics.RidesTotal.WithLabelValues("ride_service", "completed").Inc()
 
 	// отправляем пассажиру сообщение по вебсокету
 	wsMessage := models.StatusUpdateWebSocketMessage{
