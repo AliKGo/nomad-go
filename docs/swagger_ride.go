@@ -12,8 +12,8 @@ package docs
 // @license.name  Apache 2.0
 // @license.url   http://www.apache.org/licenses/LICENSE-2.0.html
 
-// @host      192.168.223.128:80/ride
-// @BasePath  /
+// @host      192.168.223.128
+// @BasePath  /ride
 
 // @securityDefinitions.apikey BearerAuth
 // @in header
